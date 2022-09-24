@@ -1,9 +1,9 @@
 from random import randint
 
-computerBoard = [0] * 50
-playerBoard = [0] * 50
+computerBoard = [0] * 100
+playerBoard = [0] * 100
 
-computerBoardCopy = [0] * 50
+computerBoardCopy = [0] * 100
 
 onGame = True
 
@@ -38,18 +38,49 @@ def main():
             else:
                 shoot(computerBoardCopy, player_Shot)
                 print("Aww.. you missed.. Computers turn: ")
-                computer_Shot = random.randint(0,49)
+                computer_Shot = random.randint(0,99)
                 
                 if playerBoard[computer_Shot] == 1:
                     print("Computer Hit!")
                     hit(playerBoard, computer_Shot)
                     print(playerBoard)
                     boatHitComputer = boatHitComputer + 1
-                    end_game("Computer")
+                    end_Game("Computer")
 
                 else:
                     shoot(playerBoard, computer_Shot)
                     pint("Computer missed!")
+
+def hit(grid, shot):
+    grid.pop(shot)
+    grid.insert(shot, "@")
+
+def shoot(grid, shot):
+    grid.pop(shot)
+    grid.insert(shot, "X")
+
+def end_Game(grid):
+    if grid == "Computer":
+        if grid == 14:
+            onGame = False
+            print("Sorry you lost")
+
+    elif grid == "Player":
+        if grid == 14:
+            onGame = False
+            print("Victory!")
+
+def can_shoot(List, shot):
+    for x in range(len(list)):
+        if List[x] == shot:
+            print("You struck here already")
+            return False
+    List.append(shot)
+    return True
+
+def boatPositions(grid):
+    for n in range(2, 6):
+        x, y, direction = random.randint(0, 9),
 
 def boatPosition(length, x, y, direction, grid):
     if direction == 0:
