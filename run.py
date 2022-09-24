@@ -1,74 +1,81 @@
-from random import randint
+import random
 
 computerBoard = [0] * 100
 playerBoard = [0] * 100
 
 computerBoardCopy = [0] * 100
 
-onGame = True
+ONGAME = True
 
 computerShot = []
 playerShot = []
 
+
 def main():
-    playerHit = 0
-    computerHit = 0
+    player_Hit = 0
+    compHit = 0
 
-    boatPosition(playerBoard, computerBoard)
+    boatPositions(playerBoard)
+    boatPositions(computerBoard)
 
-    while onGame == True:
+    while ONGAME:
 
         print(computerBoardCopy)
 
         playerShot = input("Choose where to shoot")
         playerShot.split(",")
         letter = playerShot[0]
-        number = int(playershot[2])
+        number = int(playerShot[2])
 
         player_Shot = int(ord(letter)) - 65 + 10*(number - 1)
 
-        if can_shoot(prevPlayerShot, player_shot) == True:
+        if can_shoot(player_Hit, playerShot) is True:
 
             if computerShot[player_Shot] == 1:
                 hit(computerBoardCopy, player_Shot)
                 print("Hit!")
-                boatHitPlayer = boatHit + 1
+                player_Hit = player_Hit + 1
                 end_Game("Player")
 
             else:
                 shoot(computerBoardCopy, player_Shot)
                 print("Aww.. you missed.. Computers turn: ")
-                computer_Shot = random.randint(0,99)
-                
+                computer_Shot = random.randint(0, 99)
+
                 if playerBoard[computer_Shot] == 1:
                     print("Computer Hit!")
                     hit(playerBoard, computer_Shot)
                     print(playerBoard)
-                    boatHitComputer = boatHitComputer + 1
+                    compHit = compHit + 1
                     end_Game("Computer")
-
                 else:
                     shoot(playerBoard, computer_Shot)
-                    pint("Computer missed!")
+                    print("Computer missed!")
+        else:
+            print("error")
+
 
 def hit(grid, shot):
     grid.pop(shot)
     grid.insert(shot, "@")
 
+
 def shoot(grid, shot):
     grid.pop(shot)
     grid.insert(shot, "X")
 
+
 def end_Game(grid):
     if grid == "Computer":
         if grid == 14:
-            onGame = False
+            ONGAME = False
             print("Sorry you lost")
 
     elif grid == "Player":
         if grid == 14:
-            onGame = False
+            ONGAME = False
             print("Victory!")
+
 
 def can_shoot(List, shot):
     for x in range(len(list)):
@@ -78,21 +85,35 @@ def can_shoot(List, shot):
     List.append(shot)
     return True
 
+
 def boatPositions(grid):
     for n in range(2, 6):
-        x, y, direction = random.randint(0, 9),
+        x, direction = random.randint(0, 9), random.randint(0, 9),
+        random.randint(0, 1)
+        while cant_Place_Boat(n, x, direction, grid):
+            x, direction = random.randint(0, 9), random.randint(0, 9),
+            random.randint(0, 1)
+        boatPosition(n, x, direction, grid)
 
-def boatPosition(length, x, y, direction, grid):
+
+def boatPosition(length, x, direction, grid):
     if direction == 0:
         for i in range(length):
-            position = x + 5*y
+            position = x + 10
             grid.pop(position)
             grid.insert(position, 1)
             position = position + 1
 
     if direction == 1:
         for i in range(length):
-            position = x + 5*y
+            position = x + 10
             grid.pop(position)
             grid.insert(position, 1)
-            position = position + 5
+            position = position + 10
+
+
+def cant_Place_Boat(length, x, direction, grid):
+    return direction == 0 and x + length >= 10 or direction == 1
+
+
+main()
