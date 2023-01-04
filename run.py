@@ -1,51 +1,50 @@
 from random import randint
 
 
-def game_board(size):
-    return [['-' for count in range(size)] for count in range(size)]
+board = []
+
+
+for x in range(6):
+    board.append(["-"] * 6)
 
 
 def print_board(board):
-    for i in board:
-        print(*i)
+    for row in board:
+        print((" ").join(row))
 
 
-def place_ship(size):
-    row = random.randint(0, size - 1)
-    column = random.randint(0, size - 1)
-    coords = row, column
-    return list(coords)
+print("Welcome to Timtechs Battleships!")
+print("To play the game, choose a number between 0-5")
 
 
-def player_guess():
-    row = int(input("X: \n")) - 1
-    cloumn = int(input("Y: \n")) - 1
-    return (row, column)
+def random_x(board):
+    return randint(0, len(board) - 1)
 
 
-def update_board(guess, guesses, board, ship):
-    if guess in guesses:
-        print("You already tried that.")
-        return board
-    guesses.append(guess)
-    if guess in ship:
-        print("You hit a ship!")
-        board[guess[0]][guess[1]] = "X"
-        ship.remove(guess)
-        return board
-    print("You missed! Hah!")
-    return board
+def random_y(board):
+    return randint(0, len(board[0]) - 1)
 
 
-def main():
-    board = game_board(5)
+ship_x = random_x(board)
+ship_y = random_y(board)
+
+
+for turn in range(9):
+    guess_x = int(input("Guess X: "))
+    guess_y = int(input("Guess Y: "))
+
+    if guess_x == ship_x and guess_y == ship_y:
+        print("You won!")
+        break
+    else:
+        if (guess_x < 0 or guess_x > 5) or (guess_y < 0 or guess_y > 5):
+            print("Please enter a number between 0-4")
+        elif (board[guess_x][guess_y] == "X"):
+            print("You already guessed this one")
+        else:
+            print("You missed! Hah!")
+            board[guess_x][guess_y] = "X"
+    if turn == 8:
+        print("Game Over")
+    turn =+ 1
     print_board(board)
-    ship = place_ship(4); ship
-    x = player_guess(); x
-    guesses = []
-    our_guess = player_guess()
-    board = update_board(our_guess, guesses, board, ship)
-    print_board(board)
-
-
-main()
