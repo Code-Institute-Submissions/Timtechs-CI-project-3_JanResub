@@ -25,8 +25,8 @@ def new_game():
     ship_y = random_y(board)
 
     for turn in range(9):
-        guess_x = int(input("Guess X: "))
-        guess_y = int(input("Guess Y: "))
+        guess_x = int(input("Guess X: \n"))
+        guess_y = int(input("Guess Y: \n"))
 
         if guess_x == ship_x and guess_y == ship_y:
             print("You won!")
